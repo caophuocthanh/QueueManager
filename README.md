@@ -3,15 +3,18 @@
 ## Feature:
 
 Beta 1:
-- [x] Can set an scenario to excute.
+- [x] Can set a scenario to execute.
 - [x] Queue can run with many scenarios inside.
-- [x] Queue handle with minimum tasks - Remove duplicate task - Reduce tasks to excute.
-- [x] Set duration to ignore tasks. Or set irgnore == false
-- [x] A lib can easier to apply to a exist project.
+- [x] State of the queue: working, resting.
+- [x] Callback when a scenario is done.  
+- [x] Callback when a task is done. Can add listen to callback much time.
+- [x] Queue handle with minimum tasks - Remove duplicate task - Reduce tasks to execute.
+- [x] Set duration to ignore tasks. Or set ignore == false
+- [x] A lib can easier to apply to an existing project.
 
 Beta 2:
-- [ ] A task can have required condition tasks thesse must done before run this task.
-- [ ] If task adapted conditions. A task can run immedately. No need to wait its turn
+- [ ] A task can have required condition tasks these must be done before running this task.
+- [ ] If task adapted conditions. A task can run immediately. No need to wait its turn
 
 
 ## Code:
