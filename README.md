@@ -66,7 +66,7 @@ Import
 
 Define workers
 
-```
+```swift
     public static var task1: Worker = {
         let worker = Worker(name: "task1") { (makeCompleted) in
             // TODO:
