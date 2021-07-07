@@ -25,8 +25,8 @@ Beta 2:
 ## How it work:
 
 Input:
+
 ```
-Interaction:
    (begin):
         (#1) -- todo - note - event - [kanpan, kanban item] - colelctions
    (after 1s):
@@ -44,8 +44,7 @@ Interaction:
  After prepare and will excute:
 
 ```
-Queue handle - remove dublicate - make it faster - recuce tasks excute:
-Combine: => queue[]:  todo - note - event - [kanpan, kanbanitem] - colelctions - (finish #1) - push contact - (finish #2) - push email - (finish #3) - push todo - (finish #4) - (finish #5) - todo - note - event - [kanpab, kanbanitem] - colelctions - (finish #6)
+queue[]:  todo - note - event - [kanpan, kanbanitem] - colelctions - (finish #1) - push contact - (finish #2) - push email - (finish #3) - push todo - (finish #4) - (finish #5) - todo - note - event - [kanpab, kanbanitem] - colelctions - (finish #6)
 
 ```
 
