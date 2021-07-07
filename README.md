@@ -28,25 +28,89 @@ Input:
 
 ```
    (begin):
-        (#1) -- todo - note - event - [kanpan, kanban item] - colelctions
+        (#1) -- task1 - task2 - task3 - [task4, task5, task6] - task7
    (after 1s):
         [
-            (#2) -- todo - note - event - push contact
-            (#3) -- todo - note - event - push email
-            (#4) -- todo - note - event - push todo
-            (#5) -- todo - note - event - [kanpab, kanbanitem] - colelctions
+            (#2) -- task1 - task2 - task3 - task8
+            (#3) -- task1 - task2 - task3 - task9
+            (#4) -- task1 - task2 - task3 - task10
+            (#5) --task1 - task2 - task3 - [task4, task5, task6] - task7
         ]
    (after 60s):
-        (#6) -- todo - note - event - [kanpab, kanbanitem] - colelctions
+        (#6) -- task1 - task2 - task3 - [task4, task5, task6] - task7
+        
+        
+    // with task8, task9, task10 set irnore = false
 
 ```
 
  After prepare and will excute:
 
 ```
-queue[]:  todo - note - event - [kanpan, kanbanitem] - colelctions - (finish #1) - push contact - (finish #2) - push email - (finish #3) - push todo - (finish #4) - (finish #5) - todo - note - event - [kanpab, kanbanitem] - colelctions - (finish #6)
+queue[]:  task1 - task2 - task3 - [task4, task5, task6] - task7 - (finish #1) - task8 - (finish #2) - task9 - (finish #3) - task10- (finish #4) - (finish #5) - task1 - task2 - task3  - [task4, task5, task6] - task7 - (finish #6)
+ - (finish #6)
 
 ```
 
 So, with the scenario #2 , #3, #5, #5. the scenario not execute  todo - note - event. The scenario run faster.
 After 60s, todo - note - event. more than duration. The tasks todo - note - event can run with another scenario.
+
+# How to use:
+
+Import
+
+``` swift
+#import AnyQueueManager
+```
+
+
+Define workers
+
+```
+    public static var task1: Worker = {
+        let worker = Worker(name: "task1") { (makeCompleted) in
+            // TODO:
+            // Hanlde task here
+            // Finally, makeCompleted()
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+                print("✪ makeCompleted  => push_contact")
+                makeCompleted()
+            }
+        }
+        // Duration for next excute
+        worker.duration = 0
+        // Accept ignore after duration time
+        worker.ignore = false
+        return worker
+    }()
+
+```
+Create a scenario
+
+```swift
+
+    func scenario() {
+        return QueueManager.Scenario(
+            name: "\(Date().timeIntervalSince1970)_scenario",
+            tasks: [
+                .async([
+                    task1,
+                    task2,
+                    task3,
+                ]),
+                .sync(task4)
+            ],
+            completed: {
+                print("first sync completed \n\n\n\n")
+            })
+    }
+
+```
+
+Execute
+
+```swift
+       let scenario = scenario()
+        QueueManager.run(scenario)
+```
+
