@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         
-        Workers.pull_task1.completed {
+        Workers.fetch_task1.completed {
             print("🥉 w1 => calback")
         }
         
@@ -56,17 +56,17 @@ class ViewController: UIViewController {
         return QueueManager.Scenario(
             name: "\(Date().timeIntervalSince1970)_interval sync",
             tasks: [
-                .sync(Workers.pull_task1),
+                .sync(Workers.fetch_task1),
                 .async([
-                    Workers.note,
-                    Workers.kanban,
-                    Workers.event,
+                    Workers.fetch_task2,
+                    Workers.fetch_task3,
+                    Workers.fetch_task4,
+                    Workers.fetch_task5,
                     Workers.fetch_task6,
-                    Workers.collections,
-                    Workers.pull_task4,
-                    Workers.todo,
+                    Workers.fetch_task7,
+                    Workers.fetch_task8,
                 ]),
-                .sync(Workers.pull_task2)
+                .sync(Workers.fetch_task9)
             ],
             completed: {
                 //print("interval sync completed\n\n\n\n")
@@ -96,11 +96,11 @@ class ViewController: UIViewController {
             name: "\(Date().timeIntervalSince1970)_push contact",
             tasks: [
                 .async([
-                    Workers.pull_task1,
-                    Workers.fetch_task6,
-                    Workers.kanban,
+                    Workers.fetch_task1,
+                    Workers.fetch_task2,
+                    Workers.fetch_task11,
                 ]),
-                .sync(Workers.push_contact)
+                .sync(Workers.push_task1)
             ],
             completed: {
                 //print("first sync completed \n\n\n\n")
