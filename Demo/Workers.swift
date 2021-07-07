@@ -10,10 +10,10 @@ import AnyWorkerQueue
 
 struct Workers {
     
-    public static var email: Worker = {
-        let worker = Worker(name: "email") { (makeCompleted) in
+    public static var fetch_task1: Worker = {
+        let worker = Worker(name: "fetch_task1") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                print("✪ makeCompleted  => email")
+                print("✪ makeCompleted  => fetch_task1")
                 makeCompleted()
             }
         }
@@ -23,10 +23,10 @@ struct Workers {
         return worker
     }()
     
-    public static var contact: Worker  = {
-        let worker = Worker(name: "contact") { (makeCompleted) in
+    public static var fetch_task2: Worker  = {
+        let worker = Worker(name: "fetch_task2") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 6) {
-                print("✪ makeCompleted  => contact")
+                print("✪ makeCompleted  => fetch_task2")
                 makeCompleted()
             }
         }
@@ -36,10 +36,10 @@ struct Workers {
         return worker
     }()
     
-    public static var user: Worker = {
-        let worker = Worker(name: "user") { (makeCompleted) in
+    public static var fetch_task3: Worker = {
+        let worker = Worker(name: "fetch_task3") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
-                print("✪ makeCompleted  => user")
+                print("✪ makeCompleted  => fetch_task3")
                 makeCompleted()
             }
         }
@@ -49,10 +49,10 @@ struct Workers {
         return worker
     }()
     
-    public static var settings: Worker = {
-        let worker = Worker(name: "settings") { (makeCompleted) in
+    public static var fetch_task4: Worker = {
+        let worker = Worker(name: "fetch_task4") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                print("✪ makeCompleted  => settings")
+                print("✪ makeCompleted  => fetch_task4")
                 makeCompleted()
             }
         }
@@ -63,10 +63,10 @@ struct Workers {
     }()
     
     
-    public static var accounts: Worker = {
-        let worker = Worker(name: "accounts") { (makeCompleted) in
+    public static var fetch_task5: Worker = {
+        let worker = Worker(name: "fetch_task5") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
-                print("✪ makeCompleted  => accounts")
+                print("✪ makeCompleted  => fetch_task5")
                 makeCompleted()
             }
         }
@@ -76,10 +76,10 @@ struct Workers {
         return worker
     }()
     
-    public static var folder: Worker = {
-        let worker = Worker(name: "folder") { (makeCompleted) in
+    public static var fetch_task6: Worker = {
+        let worker = Worker(name: "fetch_task6") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                print("✪ makeCompleted  => folder")
+                print("✪ makeCompleted  => fetch_task6")
                 makeCompleted()
             }
         }
@@ -90,10 +90,10 @@ struct Workers {
     }()
     
     
-    public static var collections: Worker  = {
-        let worker = Worker(name: "collections") { (makeCompleted) in
+    public static var fetch_task7: Worker  = {
+        let worker = Worker(name: "fetch_task6") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                print("✪ makeCompleted  => collections")
+                print("✪ makeCompleted  => fetch_task6")
                 makeCompleted()
             }
         }
@@ -104,10 +104,10 @@ struct Workers {
     }()
     
     
-    public static var kanban: Worker  = {
-        let worker = Worker(name: "kanban") { (makeCompleted) in
+    public static var fetch_task8: Worker  = {
+        let worker = Worker(name: "fetch_task6") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                print("✪ makeCompleted  => kanban")
+                print("✪ makeCompleted  => fetch_task6")
                 makeCompleted()
             }
         }
@@ -118,10 +118,10 @@ struct Workers {
     }()
     
     
-    public static var event: Worker  = {
-        let worker = Worker(name: "event") { (makeCompleted) in
+    public static var fetch_task9: Worker  = {
+        let worker = Worker(name: "fetch_task9") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                print("✪ makeCompleted  => event")
+                print("✪ makeCompleted  => fetch_task9")
                 makeCompleted()
             }
         }
@@ -131,10 +131,10 @@ struct Workers {
         return worker
     }()
     
-    public static var note: Worker  = {
-        let worker = Worker(name: "note") { (makeCompleted) in
+    public static var fetch_task10: Worker  = {
+        let worker = Worker(name: "fetch_task10") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 4) {
-                print("✪ makeCompleted  => note")
+                print("✪ makeCompleted  => fetch_task10")
                 makeCompleted()
             }
         }
@@ -145,10 +145,10 @@ struct Workers {
     }()
     
     
-    public static var todo: Worker = {
-        let worker = Worker(name: "todo") { (makeCompleted) in
+    public static var fetch_task11: Worker = {
+        let worker = Worker(name: "fetch_task11") { (makeCompleted) in
             DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                print("✪ makeCompleted  => todo")
+                print("✪ makeCompleted  => fetch_task11")
                 makeCompleted()
             }
         }
@@ -158,12 +158,12 @@ struct Workers {
         return worker
     }()
     
-    public static var push_email: Worker = {
-        let worker = Worker(name: "push_email") { (makeCompleted) in
+    public static var push_task1: Worker = {
+        let worker = Worker(name: "push_task1") { (makeCompleted) in
             
             // closure excute any code
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                print("✪ makeCompleted  => push_email")
+                print("✪ makeCompleted  => push_task1")
                 makeCompleted()
             }
         }
@@ -174,8 +174,8 @@ struct Workers {
         return worker
     }()
     
-    public static var push_contact: Worker = {
-        let worker = Worker(name: "push_contact") { (makeCompleted) in
+    public static var push_task2: Worker = {
+        let worker = Worker(name: "push_task2") { (makeCompleted) in
             // TODO:
             // Load activities
             // Send request
@@ -184,7 +184,7 @@ struct Workers {
             // emit to UI
             // Finally, makeCompleted()
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                print("✪ makeCompleted  => push_contact")
+                print("✪ makeCompleted  => push_task2")
                 makeCompleted()
             }
         }

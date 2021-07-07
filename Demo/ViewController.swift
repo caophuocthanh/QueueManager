@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         
-        Workers.email.completed {
+        Workers.pull_task1.completed {
             print("🥉 w1 => calback")
         }
         
@@ -49,19 +49,6 @@ class ViewController: UIViewController {
             QueueManager.run(pushEmail)
         }
         
-        
-//        (1) -- todo - note - event - [kanpan, kanban item] - colelctions
-//        (1s):[
-//            (2) -- todo - note - event - push contact
-//            (3) -- todo - note - event - push email
-//            (4) -- todo - note - event - push todo
-//            (5) -- todo - note - event - [kanpab, kanbanitem] - colelctions
-//        ]
-//        (60s):
-//        (6) -- todo - note - event - [kanpab, kanbanitem] - colelctions
-//        combine: => queue[]:  todo - note - event - [kanpan, kanbanitem] - colelctions - (finish 1) - push contact - (finish 2) - push email - (finish 3) - push todo - (finish 4) - (finish 5) - todo - note - event - [kanpab, kanbanitem] - colelctions - (finish 6)
-       
-        
     }
     
     
@@ -69,17 +56,17 @@ class ViewController: UIViewController {
         return QueueManager.Scenario(
             name: "\(Date().timeIntervalSince1970)_interval sync",
             tasks: [
-                .sync(Workers.email),
+                .sync(Workers.pull_task1),
                 .async([
                     Workers.note,
                     Workers.kanban,
                     Workers.event,
-                    Workers.folder,
+                    Workers.fetch_task6,
                     Workers.collections,
-                    Workers.settings,
+                    Workers.pull_task4,
                     Workers.todo,
                 ]),
-                .sync(Workers.contact)
+                .sync(Workers.pull_task2)
             ],
             completed: {
                 //print("interval sync completed\n\n\n\n")
@@ -92,11 +79,11 @@ class ViewController: UIViewController {
             name: "\(Date().timeIntervalSince1970)_push email",
             tasks: [
                 .async([
-                    Workers.note,
-                    Workers.event,
-                    Workers.kanban,
+                    Workers.fetch_task10,
+                    Workers.fetch_task9,
+                    Workers.fetch_task8,
                 ]),
-                .sync(Workers.push_email)
+                .sync(Workers.push_task1)
             ],
             completed: {
                 //print("first sync completed \n\n\n\n")
@@ -109,8 +96,8 @@ class ViewController: UIViewController {
             name: "\(Date().timeIntervalSince1970)_push contact",
             tasks: [
                 .async([
-                    Workers.email,
-                    Workers.folder,
+                    Workers.pull_task1,
+                    Workers.fetch_task6,
                     Workers.kanban,
                 ]),
                 .sync(Workers.push_contact)
