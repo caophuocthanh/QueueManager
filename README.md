@@ -50,4 +50,4 @@ Combine: => queue[]:  todo - note - event - [kanpan, kanbanitem] - colelctions -
 ```
 
 So, with the scenario #2 , #3, #5, #5. the scenario not execute  todo - note - event. The scenario run faster.
-- After 60s, todo - note - event. more than duration. The tasks todo - note - event can run with another scenario.
+After 60s, todo - note - event. more than duration. The tasks todo - note - event can run with another scenario.
