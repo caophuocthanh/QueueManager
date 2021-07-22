@@ -12,7 +12,11 @@ import UIKit
 public class Worker {
     
     internal var completedCalbacks: [((() -> Void))?] = []
+    internal var startCalbacks: [((() -> Void))?] = []
     
+    public func start(calback: @escaping ((() -> Void))) {
+        self.startCalbacks.append(calback)
+    }
     public func completed(calback: @escaping ((() -> Void))) {
         self.completedCalbacks.append(calback)
     }
@@ -50,6 +54,7 @@ public class Worker {
             }
         }
         _operation.queuePriority = self.queuePriority
+        _operation.startCalback += startCalbacks
         _operation.completedCalback += completedCalbacks
         return _operation
     }

@@ -14,30 +14,29 @@ public extension QueueManager {
         case async([Worker])
     }
     
-    class Scenario {
+    class Scenario: Hashable {
         
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.name)
+        }
+        
+        public static func ==(lhs: QueueManager.Scenario, rhs: QueueManager.Scenario) -> Bool {
+            return lhs.hashValue == rhs.hashValue
+        }
+                
         internal var name: String
         internal var tasks: [Task]
         
-        
-        internal let beginWorker: Worker
-        internal let endWorker: Worker
+
+        internal var endWorker: Worker
+        internal var completed: () -> Void
         
         internal var start_mearsure: Double = CFAbsoluteTimeGetCurrent()
         
         public init(name: String, tasks: [Task], completed: @escaping () -> Void) {
             self.name = name
             self.tasks = tasks
-            
-            self.beginWorker = Worker(name: "\(name)_begin") { (makeCompleted) in
-               print("\n\n\nScenario [\(name)] begin")
-                makeCompleted()
-            }
-
-            self.beginWorker.operation.queuePriority = .veryHigh
-            self.beginWorker.duration = 0
-            self.beginWorker.ignore = false
-            self.tasks.insert(.sync(self.beginWorker), at: 0)
+            self.completed = completed
             
             self.endWorker = Worker(name: "\(name)_finish") { (makeCompleted) in
                 makeCompleted()
@@ -47,7 +46,7 @@ public extension QueueManager {
             self.endWorker.completed {
                 self.tasks = []
                 print("\(Date()) Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
-                completed()
+                self.completed()
             }
             
 

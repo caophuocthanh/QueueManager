@@ -15,10 +15,10 @@ public class QueueManager {
         case resting
     }
     
-    internal static var lasttimeExcuteWorker: [String: Double] = [:]
+    internal static var workerHistories: [String: CFAbsoluteTime] = [:]
     
-    internal func lastExcuateOperation(by name: String) -> Double {
-        return QueueManager.lasttimeExcuteWorker[name] ?? 0
+    internal func lastExcuateOperation(by name: String) -> CFAbsoluteTime {
+        return QueueManager.workerHistories[name] ?? 0
     }
     
     public static func run(_ scenario: QueueManager.Scenario) {
@@ -58,8 +58,11 @@ public class QueueManager {
     internal var _observations: [NSKeyValueObservation] = []
     
     public var operations: [CompleteOperation] {
-        let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).filter { $0.isCancelled == false && $0.isFinished == false}.map{ $0 as? CompleteOperation}.compactMap{ $0 }
-        print("operations:", operations.map {$0.name ?? ""})
+        //lock.lock()
+        let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
+        //let names = operations.map {$0.name ?? ""}
+        //print("operations:", names)
+        //lock.unlock()
         return operations
     }
     
@@ -81,32 +84,46 @@ public class QueueManager {
     
     private func isValidDurationCondition(worker: Worker) -> Bool {
         let condition = worker.duration
-        let valid =  Date().timeIntervalSince1970 - self.lastExcuateOperation(by: worker.name) > condition
+        let period =  CFAbsoluteTimeGetCurrent() - self.lastExcuateOperation(by: worker.name)
+        let valid =  period > condition
+        print("Condition - isValidDurationCondition:", period, "valid: ",valid)
         return valid
     }
     
     private func isValidOperationStateCondition(worker: Worker) -> Bool {
         let valid = worker.operation.isFinished == false && worker.operation.isExecuting == false && worker.operation.isReady == true
+        print("Condition - isValidOperationStateCondition:", worker.operation.isFinished, worker.operation.isExecuting, worker.operation.isReady, "valid: ", valid)
         return valid
     }
     
     private func isValidIgnoreStateCondition(worker: Worker) -> Bool {
         let valid = self.operations.contains(where: {$0.name == worker.name}) == true && worker.ignore == false
+        print("Condition - isValidIgnoreStateCondition:", "valid: ",valid)
         return valid
     }
     
+    private func storeHistories(worker: Worker) {
+        self.lock.lock()
+        print("storeHistories:", worker.name)
+        QueueManager.workerHistories[worker.name] = CFAbsoluteTimeGetCurrent()
+        self.lock.unlock()
+    }
+    
     public func add(scenario: Scenario) {
-        self.dispatchQueue.async {
+        self.dispatchQueue.sync {
             self.lock.lock()
-            self.operationSerialQueue.isSuspended = true
-            guard self._scenarios.contains(where: { scenario.name == $0.name }) == false else {
-                print("\(Date()) Scenario: \(scenario.name) ignore.")
+            
+            if let exsit_scenario: Scenario = self._scenarios.first(where: { scenario == $0}) {
+                print("\(Date()) add scenario -> exsited: \(scenario.name) just add reference start and end.")
+                scenario.completed = exsit_scenario.completed
+                self.lock.unlock()
                 return
             }
-            
+
+     
             self._scenarios.append(scenario)
             
-            print("\(Date()) Scenario: \(scenario.name) begin.")
+            print("\(Date()) add scenario ->: \(scenario.name)")
             
             for task in scenario.tasks {
                 switch task {
@@ -115,23 +132,19 @@ public class QueueManager {
                     
                     if self.isValidIgnoreStateCondition(worker: worker) == true {
                         //print("\(Date()) Scenario: ----------- check worker => ", worker.name)
-                        worker.completed {
-                            self.lock.lock()
-                            QueueManager.lasttimeExcuteWorker[worker.name] = Date().timeIntervalSince1970
-                            self.lock.unlock()
+                        worker.start {
+                            self.storeHistories(worker: worker)
                         }
                         self.operationSerialQueue.addOperation(worker.operation)
                     }
                     
                     else if self.operations.contains(worker.operation) == false &&
-                        self.isValidOperationStateCondition(worker: worker) &&
+                        self.isValidOperationStateCondition(worker: worker) == true &&
                         self.isValidIgnoreStateCondition(worker: worker) == false &&
-                        self.isValidDurationCondition(worker: worker) {
-                        //print("\(Date()) Scenario: ----------- check worker => ", worker.name)
-                        worker.completed {
-                            self.lock.lock()
-                            QueueManager.lasttimeExcuteWorker[worker.name] = Date().timeIntervalSince1970
-                            self.lock.unlock()
+                        self.isValidDurationCondition(worker: worker) == true {
+                        print("\(Date()) Queue add scenario_worker \(scenario.name) - worker: ", worker.name)
+                        worker.start {
+                            self.storeHistories(worker: worker)
                         }
                         self.operationSerialQueue.addOperation(worker.operation)
                     }
@@ -145,23 +158,13 @@ public class QueueManager {
                         let _start_mearsure = CFAbsoluteTimeGetCurrent()
                         print("\(Date()) Scenario: >> async \(workers.map { $0.name}) start.")
                         
-                        let _workers: [Worker] = workers.filter { worker -> Bool in
-                            self.operations.contains(worker.operation) == false &&
-                                self.isValidOperationStateCondition(worker: worker) &&
+                        let _workers: [Worker] = workers.filter { worker in
+                            return self.operations.contains(worker.operation) == false &&
+                                self.isValidOperationStateCondition(worker: worker) == true &&
                                 self.isValidIgnoreStateCondition(worker: worker) == false &&
-                                self.isValidDurationCondition(worker: worker)
+                                self.isValidDurationCondition(worker: worker) == true
                         }
-                        
-                        let operations = _workers.map { $0.operation}
-                        for worker in _workers {
-                            worker.completed {
-                                self.lock.lock()
-                                QueueManager.lasttimeExcuteWorker[worker.name] = Date().timeIntervalSince1970
-                                self.lock.unlock()
-                            }
-                            //self.lasttimeExcuteWorker[$0.name] = Date().timeIntervalSince1970
-                        }
-                        
+ 
                         for worker in workers {
                             if _workers.contains(where: { $0.name == worker.name}) == false {
                                 print("\(Date()) Scenario: ignore => \(worker.name)")
@@ -169,20 +172,27 @@ public class QueueManager {
                             }
                         }
                         
-                        print("\(Date()) Scenario: >> async begin with \(_workers.map { $0.name}).")
+                        
                         
                         if _workers.count > 0 {
+                            print("\(Date()) Scenario: >> async begin with \(_workers.map { $0.name}).")
+                            _workers.forEach { (worker) in
+                                worker.start {
+                                    self.storeHistories(worker: worker)
+                                }
+                            }
+                            let operations = _workers.map { $0.operation}
                             self.operationConcurrentQueue.addOperations(operations, waitUntilFinished: true)
+                            print("\(Date()) Scenario: >> async \(_workers.map { $0.name}) done in ",  CFAbsoluteTimeGetCurrent() - _start_mearsure, "seconds")
                         }
                         
-                        print("\(Date()) Scenario: >> async \(_workers.map { $0.name}) done in ",  CFAbsoluteTimeGetCurrent() - _start_mearsure, "seconds")
+                        
                     }
                     
                     operation.queuePriority = .veryHigh
                     self.operationSerialQueue.addOperation(operation)
                 }
             }
-            self.operationSerialQueue.isSuspended = false
             self.lock.unlock()
         }
         

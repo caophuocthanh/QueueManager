@@ -13,6 +13,7 @@ public extension QueueManager {
     class CompleteOperation: Operation {
                 
         private var makeCompleted: ((_ callback: @escaping (() -> Void)) -> Void)
+        internal var startCalback: [((() -> Void))?] = []
         internal var completedCalback: [((() -> Void))?] = []
         
         private var start_measure_time: CFAbsoluteTime = CFAbsoluteTimeGetCurrent()
@@ -57,12 +58,12 @@ public extension QueueManager {
                 self.state = .finished
                 return
             }
-            
+            self.startCalback.compactMap{ $0 }.forEach{ $0() }
             state = .executing
             
             self.makeCompleted {
                 let measure = CFAbsoluteTimeGetCurrent() - self.start_measure_time
-                print("operator: \(self.name ?? "") is finish in \(measure) seconds.")
+                print(Date(),"operator: \(self.name ?? "") is finish in \(measure) seconds.")
                 self.state = .finished
                 self.completedCalback.compactMap{ $0 }.forEach{ $0() }
             }
