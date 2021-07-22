@@ -33,6 +33,20 @@ public extension QueueManager {
         
         internal var start_mearsure: Double = CFAbsoluteTimeGetCurrent()
         
+        internal var workers: [Worker] {
+            var workers: [Worker] = []
+            for task in self.tasks {
+                switch task {
+                case .sync(let w):
+                    workers.append(w)
+                case .async(let ws):
+                    workers += ws
+                }
+            }
+            workers.removeLast()
+            return workers
+        }
+        
         public init(name: String, tasks: [Task], completed: @escaping () -> Void) {
             self.name = name
             self.tasks = tasks

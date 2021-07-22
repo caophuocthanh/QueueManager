@@ -28,7 +28,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -41,7 +41,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -54,7 +54,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -67,7 +67,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -81,7 +81,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -94,7 +94,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -108,7 +108,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -122,7 +122,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -136,7 +136,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -149,7 +149,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -163,7 +163,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 10
+        worker.duration = 12
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker

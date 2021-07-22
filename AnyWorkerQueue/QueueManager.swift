@@ -113,6 +113,16 @@ public class QueueManager {
         self.dispatchQueue.sync {
             self.lock.lock()
             
+            
+            guard scenario.workers.contains(where: { (worker) -> Bool in
+                return self.isValidDurationCondition(worker: worker) == true
+            }) else {
+                print("\(Date()) add scenario -> invaValidDuration: \(scenario.name) completed")
+                scenario.completed()
+                self.lock.unlock()
+                return
+            }
+            
             if let exsit_scenario: Scenario = self._scenarios.first(where: { scenario == $0}) {
                 print("\(Date()) add scenario -> exsited: \(scenario.name) just add reference start and end.")
                 scenario.completed = exsit_scenario.completed
