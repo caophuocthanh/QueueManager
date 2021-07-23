@@ -184,7 +184,7 @@ class ViewController: UIViewController {
                     Workers.fetch_task9,
                     Workers.fetch_task8,
                 ]),
-                .sync(Workers.fetch_task1),
+                .sync(Workers.push_task1),
             ],
             completed: {
                 //print("first sync completed \n\n\n\n")
@@ -201,7 +201,7 @@ class ViewController: UIViewController {
                     Workers.fetch_task2,
                     Workers.fetch_task11,
                 ]),
-                .sync(Workers.push_task1)
+                .sync(Workers.push_task2)
             ],
             completed: {
                 //print("first sync completed \n\n\n\n")
