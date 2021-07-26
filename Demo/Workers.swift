@@ -17,7 +17,7 @@ func request(calback: @escaping () ->  Void) {
 //    task.resume()
     
     let wait = DispatchSemaphore(value: 0)
-    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
         calback()
         wait.signal()
     }

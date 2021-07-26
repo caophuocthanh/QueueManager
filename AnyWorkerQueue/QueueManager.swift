@@ -54,7 +54,11 @@ public class QueueManager {
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: "AnyWorkerQDispatchQueue", qos: .userInteractive, attributes: [], autoreleaseFrequency: .workItem, target: .global())
     private let lock = NSRecursiveLock()
     
-    internal var _scenarios: [QueueManager.Scenario] = []
+    internal var _scenarios: [QueueManager.Scenario] = [] {
+        didSet {
+            print("_scenarios:", _scenarios.map { $0.name })
+        }
+    }
     internal var _observations: [NSKeyValueObservation] = []
     
     public var operations: [CompleteOperation] {
@@ -86,25 +90,25 @@ public class QueueManager {
         let condition = worker.duration
         let period =  CFAbsoluteTimeGetCurrent() - self.lastExcuateOperation(by: worker.name)
         let valid =  period > condition
-        print("Condition - isValidDurationCondition:", period, "valid: ",valid)
+        //print("Condition - isValidDurationCondition:", period, "valid: ",valid)
         return valid
     }
     
     private func isValidOperationStateCondition(worker: Worker) -> Bool {
         let valid = worker.operation.isFinished == false && worker.operation.isExecuting == false && worker.operation.isReady == true
-        print("Condition - isValidOperationStateCondition:", worker.operation.isFinished, worker.operation.isExecuting, worker.operation.isReady, "valid: ", valid)
+        //print("Condition - isValidOperationStateCondition:", worker.operation.isFinished, worker.operation.isExecuting, worker.operation.isReady, "valid: ", valid)
         return valid
     }
     
     private func isValidIgnoreStateCondition(worker: Worker) -> Bool {
         let valid = self.operations.contains(where: {$0.name == worker.name}) == true && worker.ignore == false
-        print("Condition - isValidIgnoreStateCondition:", "valid: ",valid)
+        //print("Condition - isValidIgnoreStateCondition:", "valid: ",valid)
         return valid
     }
     
     private func storeHistories(worker: Worker) {
         self.lock.lock()
-        print("storeHistories:", worker.name)
+        print("histories:", worker.name)
         QueueManager.workerHistories[worker.name] = CFAbsoluteTimeGetCurrent()
         self.lock.unlock()
     }
@@ -142,7 +146,8 @@ public class QueueManager {
                     
                     if self.isValidIgnoreStateCondition(worker: worker) == true {
                         //print("\(Date()) Scenario: ----------- check worker => ", worker.name)
-                        worker.start {
+                        worker.start { [weak self] in
+                            guard let self = self else { return }
                             self.storeHistories(worker: worker)
                         }
                         self.operationSerialQueue.addOperation(worker.operation)
@@ -153,7 +158,8 @@ public class QueueManager {
                         self.isValidIgnoreStateCondition(worker: worker) == false &&
                         self.isValidDurationCondition(worker: worker) == true {
                         print("\(Date()) Queue add scenario_worker \(scenario.name) - worker: ", worker.name)
-                        worker.start {
+                        worker.start { [weak self] in
+                            guard let self = self else { return }
                             self.storeHistories(worker: worker)
                         }
                         self.operationSerialQueue.addOperation(worker.operation)
@@ -164,7 +170,8 @@ public class QueueManager {
                         worker.completedCalbacks.forEach { $0?()}
                     }
                 case .async(let workers):
-                    let operation = BlockOperation {
+                    let operation = BlockOperation {  [weak self] in
+                        guard let self = self else { return }
                         let _start_mearsure = CFAbsoluteTimeGetCurrent()
                         print("\(Date()) Scenario: >> async \(workers.map { $0.name}) start.")
                         
@@ -182,12 +189,11 @@ public class QueueManager {
                             }
                         }
                         
-                        
-                        
                         if _workers.count > 0 {
                             print("\(Date()) Scenario: >> async begin with \(_workers.map { $0.name}).")
                             _workers.forEach { (worker) in
-                                worker.start {
+                                worker.start { [weak self] in
+                                    guard let self = self else { return }
                                     self.storeHistories(worker: worker)
                                 }
                             }
@@ -195,8 +201,6 @@ public class QueueManager {
                             self.operationConcurrentQueue.addOperations(operations, waitUntilFinished: true)
                             print("\(Date()) Scenario: >> async \(_workers.map { $0.name}) done in ",  CFAbsoluteTimeGetCurrent() - _start_mearsure, "seconds")
                         }
-                        
-                        
                     }
                     
                     operation.queuePriority = .veryHigh

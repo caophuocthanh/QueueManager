@@ -10,9 +10,11 @@ import UIKit
 
 
 public class Worker {
+  
+    public typealias Calback = ((() -> Void))
     
-    internal var completedCalbacks: [((() -> Void))?] = []
-    internal var startCalbacks: [((() -> Void))?] = []
+    internal var completedCalbacks: [Calback?] = []
+    internal var startCalbacks: [Calback?] = []
     
     public func start(calback: @escaping ((() -> Void))) {
         self.startCalbacks.append(calback)
@@ -21,7 +23,7 @@ public class Worker {
         self.completedCalbacks.append(calback)
     }
     
-
+    
     private var operations: [QueueManager.CompleteOperation] {
         return QueueManager.default.operations
     }
@@ -32,23 +34,25 @@ public class Worker {
     public var operation: QueueManager.CompleteOperation {
         
         if self.ignore == false {
-            let _operation = QueueManager.CompleteOperation(name: name) { (makeCompleted) in
+            let _operation = QueueManager.CompleteOperation(name: name) { [weak self] (makeCompleted) in
+                guard let self = self else { return }
                 self.handler {
                     makeCompleted()
                 }
             }
-           _operation.queuePriority = self.queuePriority
+            _operation.queuePriority = self.queuePriority
             _operation.completedCalback += completedCalbacks
             return _operation
         }
         
         if let _operation = self.operations.first(where: { $0.name == name}) {
-           _operation.queuePriority = self.queuePriority
+            _operation.queuePriority = self.queuePriority
             return _operation
         }
         
         //else
-        let _operation = QueueManager.CompleteOperation(name: name) { (makeCompleted) in
+        let _operation = QueueManager.CompleteOperation(name: name) { [weak self] (makeCompleted) in
+            guard let self = self else { return }
             self.handler {
                 makeCompleted()
             }

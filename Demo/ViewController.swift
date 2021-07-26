@@ -100,6 +100,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { (_) in
+            print("interval")
+            let send = self.scenario_1 {
+                DispatchQueue.main.async {
+                    self.button1.pulsate()
+                    self.button1.backgroundColor = .red
+                }
+                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_1 [interval] done")
+            }
+            QueueManager.run(send)
+        }
+        
 //        
 //        
 //        
