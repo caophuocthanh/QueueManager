@@ -2,7 +2,7 @@
 
 ## Feature:
 
-Beta 1:
+Phase 1:
 - [x] Can set a scenario to execute.
 - [x] Queue can run with many scenarios inside.
 - [x] State of the queue: working, resting.
@@ -12,7 +12,7 @@ Beta 1:
 - [x] Set duration to ignore tasks. Or set ignore == false
 - [x] A lib can easier to apply to an existing project.
 
-Beta 2:
+Phase 2:
 - [ ] A task can have required condition tasks these must be done before running this task.
 - [ ] If task adapted conditions. A task can run immediately. No need to wait its turn
 
