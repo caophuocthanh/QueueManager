@@ -65,8 +65,8 @@ public class Worker {
     
     public var duration: Double = 0
     public var ignore: Bool = false
-    public var timeout: Double = 120
-    public var retry: Int = 0
+//    public var timeout: Double = 120
+//    public var retry: Int = 0
     
     private var queuePriority: Operation.QueuePriority = .veryHigh
     
