@@ -59,7 +59,7 @@ class ViewController: UIViewController {
     @objc func button1DidTouch() {
         button1.pulsate()
         button1.backgroundColor = .gray
-        let send = self.scenario_1 {
+        let send = Scenarios.scenario_1 {
             DispatchQueue.main.async {
                 self.button1.pulsate()
                 self.button1.backgroundColor = .red
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     @objc func button2DidTouch() {
         button2.pulsate()
         button2.backgroundColor = .gray
-        let send = self.scenario_2 {
+        let send = Scenarios.scenario_2 {
             DispatchQueue.main.async {
                 self.button2.pulsate()
                 self.button2.backgroundColor = .blue
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
     @objc func button3DidTouch() {
         button3.pulsate()
         button3.backgroundColor = .gray
-        let send = self.scenario_3 {
+        let send = Scenarios.scenario_3 {
             DispatchQueue.main.async {
                 self.button3.pulsate()
                 self.button3.backgroundColor = .green
@@ -100,9 +100,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { (_) in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
             print("interval")
-            let send = self.scenario_1 {
+            let send = Scenarios.scenario_1 {
                 DispatchQueue.main.async {
                     self.button1.pulsate()
                     self.button1.backgroundColor = .red
@@ -164,62 +164,7 @@ class ViewController: UIViewController {
     }
     
     
-    func scenario_1(completed: @escaping () -> Void) -> QueueManager.Scenario {
-        return QueueManager.Scenario(
-            name: "scenario_1",
-            tasks: [
-                .sync(Workers.fetch_task1),
-                .async([
-                    Workers.fetch_task2,
-                    Workers.fetch_task3,
-                    Workers.fetch_task4,
-                    Workers.fetch_task5,
-                    Workers.fetch_task6,
-                    Workers.fetch_task7,
-                    Workers.fetch_task8,
-                ]),
-                .sync(Workers.fetch_task9),
-                .sync(Workers.fetch_task10)
-            ],
-            completed: {
-                //print("interval sync completed\n\n\n\n")
-                completed()
-            })
-    }
-    
-    func scenario_2(completed: @escaping () -> Void) -> QueueManager.Scenario {
-        return QueueManager.Scenario(
-            name: "scenario_2",
-            tasks: [
-                .async([
-                    Workers.fetch_task10,
-                    Workers.fetch_task9,
-                    Workers.fetch_task8,
-                ]),
-                .sync(Workers.push_task1),
-            ],
-            completed: {
-                //print("first sync completed \n\n\n\n")
-                completed()
-            })
-    }
-    
-    func scenario_3(completed: @escaping () -> Void) -> QueueManager.Scenario {
-        return QueueManager.Scenario(
-            name: "scenario_3",
-            tasks: [
-                .async([
-                    Workers.fetch_task1,
-                    Workers.fetch_task2,
-                    Workers.fetch_task11,
-                ]),
-                .sync(Workers.push_task2)
-            ],
-            completed: {
-                //print("first sync completed \n\n\n\n")
-                completed()
-            })
-    }
+   
     
     
 }

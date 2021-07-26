@@ -12,6 +12,7 @@
 		7307185626940A0000C50EBB /* AnyWorkerQueue.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73729D312693E94600E5DA54 /* AnyWorkerQueue.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		730718752694403800C50EBB /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7307186226943FBF00C50EBB /* Worker.swift */; };
 		7307187B2694833400C50EBB /* Workers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7307187A2694833400C50EBB /* Workers.swift */; };
+		734EACD626AE51AA00239379 /* Scenarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734EACD526AE51AA00239379 /* Scenarios.swift */; };
 		73729D3B2693E94600E5DA54 /* AnyWorkerQueue.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73729D312693E94600E5DA54 /* AnyWorkerQueue.framework */; };
 		73729D402693E94600E5DA54 /* AnyWorkerQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73729D3F2693E94600E5DA54 /* AnyWorkerQueueTests.swift */; };
 		73729D422693E94600E5DA54 /* AnyWorkerQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 73729D342693E94600E5DA54 /* AnyWorkerQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +77,7 @@
 		730718482693F2D900C50EBB /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		7307186226943FBF00C50EBB /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
 		7307187A2694833400C50EBB /* Workers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workers.swift; sourceTree = "<group>"; };
+		734EACD526AE51AA00239379 /* Scenarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenarios.swift; sourceTree = "<group>"; };
 		73729D312693E94600E5DA54 /* AnyWorkerQueue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AnyWorkerQueue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73729D342693E94600E5DA54 /* AnyWorkerQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnyWorkerQueue.h; sourceTree = "<group>"; };
 		73729D352693E94600E5DA54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -148,6 +150,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		734EACD426AE517F00239379 /* Scenarios */ = {
+			isa = PBXGroup;
+			children = (
+				7307187A2694833400C50EBB /* Workers.swift */,
+				734EACD526AE51AA00239379 /* Scenarios.swift */,
+			);
+			path = Scenarios;
+			sourceTree = "<group>";
+		};
 		73729D272693E94600E5DA54 = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +209,7 @@
 		73729D522693E95C00E5DA54 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				734EACD426AE517F00239379 /* Scenarios */,
 				73729D532693E95C00E5DA54 /* AppDelegate.swift */,
 				73729D552693E95C00E5DA54 /* SceneDelegate.swift */,
 				73729D572693E95C00E5DA54 /* ViewController.swift */,
@@ -205,7 +217,6 @@
 				73729D5C2693E96300E5DA54 /* Assets.xcassets */,
 				73729D5E2693E96300E5DA54 /* LaunchScreen.storyboard */,
 				73729D612693E96300E5DA54 /* Info.plist */,
-				7307187A2694833400C50EBB /* Workers.swift */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -453,6 +464,7 @@
 				73729D542693E95C00E5DA54 /* AppDelegate.swift in Sources */,
 				7307187B2694833400C50EBB /* Workers.swift in Sources */,
 				73729D562693E95C00E5DA54 /* SceneDelegate.swift in Sources */,
+				734EACD626AE51AA00239379 /* Scenarios.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
