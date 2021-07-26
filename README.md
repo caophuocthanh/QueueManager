@@ -52,8 +52,8 @@ queue[]:  task1 - task2 - task3 - [task4, task5, task6] - task7 - (finish #1) - 
 
 ```
 
-So, with the scenario #2 , #3, #5, #5. the scenario not execute  todo - note - event. The scenario run faster.
-After 60s, todo - note - event. more than duration. The tasks todo - note - event can run with another scenario.
+So, with the scenario #2 , #3, #5, #5. the scenario not execute . The scenario run faster.
+After 60s, #2 , #3, #5. more than duration. The tasks #2 , #3, #5 can run with another scenario.
 
 # How to use:
 
