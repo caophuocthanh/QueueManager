@@ -10,7 +10,7 @@ import AnyWorkerQueue
 
 
 func request(calback: @escaping () ->  Void) {
-//    let url = URL(string: "https://www.google.com.vn/search?q=github+magic+mirror+2&sxsrf=ALeKk02T6kqo8AcOIfnqtXvkr9dNRB4Olg%3A1627004796331&source=hp&ei=fB_6YLDOEfaP4-EPlYyAsAs&iflsig=AINFCbYAAAAAYPotjFvPIANGC4cyYfKhLbEGggREGbaA&oq=githu&gs_lcp=Cgdnd3Mtd2l6EAMYADIECCMQJzIHCAAQsQMQQzIHCAAQsQMQQzIECAAQQzIECAAQQzIFCAAQywEyBQgAELEDMgUIABDLATICCAAyAggAOgoIABCxAxCDARBDOggIABCxAxCDAVDWM1ikOGC6RmgAcAB4AIABhAGIAaIEkgEDMS40mAEAoAEBqgEHZ3dzLXdpeg&sclient=gws-wiz")!
+//    let url = URL(string: "https://www.google.com")!
 //    let task = URLSession.shared.dataTask(with: url) { data, response, error in
 //        calback()
 //    }

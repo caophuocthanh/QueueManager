@@ -28,7 +28,6 @@ class Scenarios {
                 .sync(Workers.fetch_task10)
             ],
             completed: {
-                //print("interval sync completed\n\n\n\n")
                 completed()
             })
     }
@@ -45,7 +44,6 @@ class Scenarios {
                 .sync(Workers.push_task1),
             ],
             completed: {
-                //print("first sync completed \n\n\n\n")
                 completed()
             })
     }
@@ -62,7 +60,6 @@ class Scenarios {
                 .sync(Workers.push_task2)
             ],
             completed: {
-                //print("first sync completed \n\n\n\n")
                 completed()
             })
     }
