@@ -28,7 +28,7 @@ Input:
 
 ```
    (begin):
-         scenario #1) -- task1 - task2 - task3 - [task4, task5, task6] - task7
+         [scenario #1] -- task1 - task2 - task3 - [task4, task5, task6] - task7
    (after 1s):
       [
          [scenario #2] -- task1 - task2 - task3 - task8
