@@ -28,17 +28,16 @@ Input:
 
 ```
    (begin):
-        (#1) -- task1 - task2 - task3 - [task4, task5, task6] - task7
+         scenario 1: (#1) -- task1 - task2 - task3 - [task4, task5, task6] - task7
    (after 1s):
-        [
-            (#2) -- task1 - task2 - task3 - task8
-            (#3) -- task1 - task2 - task3 - task9
-            (#4) -- task1 - task2 - task3 - task10
-            (#5) --task1 - task2 - task3 - [task4, task5, task6] - task7
-        ]
+      [
+         scenario 2: (#2) -- task1 - task2 - task3 - task8
+         scenario 3: (#3) -- task1 - task2 - task3 - task9
+         scenario 4: (#4) -- task1 - task2 - task3 - task10
+         scenario 5: (#5) --task1 - task2 - task3 - [task4, task5, task6] - task7
+      ]
    (after 60s):
-        (#6) -- task1 - task2 - task3 - [task4, task5, task6] - task7
-        
+         scenario 6: (#6) -- task1 - task2 - task3 - [task4, task5, task6] - task7
         
     // with task8, task9, task10 set irnore = false
 
