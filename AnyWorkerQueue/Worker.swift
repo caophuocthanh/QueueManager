@@ -9,7 +9,15 @@ import UIKit
 
 
 
-public class Worker {
+public class Worker: Hashable {
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+    }
+    
+    public static func == (lhs: Worker, rhs: Worker) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
   
     public typealias Calback = ((() -> Void))
     

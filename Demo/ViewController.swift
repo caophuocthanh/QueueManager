@@ -101,7 +101,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
-            print("interval")
+            print("interval button1")
+            self.button1.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
             let send = Scenarios.scenario_1 {
                 DispatchQueue.main.async {
                     self.button1.pulsate()
@@ -112,55 +113,19 @@ class ViewController: UIViewController {
             QueueManager.run(send)
         }
         
-//        
-//        
-//        
-//        
-//        
-//        
-//        Workers.fetch_task1.completed {
-//            print("🥉 w1 => calback")
-//        }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            for i in 0...3 {
-//                let send = self.scenario_1 {
-//                    print("\n\n\n😍😍😍😍😍 \(Date()) scenario_1 [\(i)] done")
-//                }
-//                QueueManager.run(send)
-//            }
-//        }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            for i in 0...5 {
-//                
-//                //
-//                let send = self.scenario_2 {
-//                    print("\n\n\n😍😍😍😍😍 \(Date()) scenario_2 [\(i)]  done")
-//                }
-//                QueueManager.run(send)
-//                
-//                let send1 = self.scenario_3 {
-//                    print("\n\n\n😍😍😍😍😍 \(Date()) scenario_3 [\(i)] done")
-//                }
-//                QueueManager.run(send1)
-//            }
-//        }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            let send1 = self.scenario_1 {
-//                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_11 done")
-//            }
-//            QueueManager.run(send1)
-//        }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-//            let send1 = self.scenario_1 {
-//                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_12 done")
-//            }
-//            QueueManager.run(send1)
-//        }
-        
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
+            print("interval button2")
+            self.button2.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
+            let send = Scenarios.scenario_2 {
+                DispatchQueue.main.async {
+                    self.button2.pulsate()
+                    self.button2.backgroundColor = .blue
+                }
+                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_2 [interval] done")
+            }
+            QueueManager.run(send)
+        }
+                
     }
     
     
@@ -173,16 +138,16 @@ extension UIButton {
 
         func pulsate() {
 
-            let pulse = CASpringAnimation(keyPath: "transform.scale")
-            pulse.duration = 0.2
-            pulse.fromValue = 0.98
-            pulse.toValue = 1.0
-            pulse.autoreverses = true
-            pulse.repeatCount = 2
-            pulse.initialVelocity = 0.5
-            pulse.damping = 1.0
-
-            layer.add(pulse, forKey: "pulse")
+//            let pulse = CASpringAnimation(keyPath: "transform.scale")
+//            pulse.duration = 0.2
+//            pulse.fromValue = 0.98
+//            pulse.toValue = 1.0
+//            pulse.autoreverses = true
+//            pulse.repeatCount = 2
+//            pulse.initialVelocity = 0.5
+//            pulse.damping = 1.0
+//
+//            layer.add(pulse, forKey: "pulse")
         }
 }
 

@@ -15,10 +15,10 @@ public class QueueManager {
         case resting
     }
     
-    internal static var workerHistories: [String: CFAbsoluteTime] = [:]
+    internal static var workerHistories: [Int: CFAbsoluteTime] = [:]
     
-    internal func lastExcuateOperation(by name: String) -> CFAbsoluteTime {
-        return QueueManager.workerHistories[name] ?? 0
+    internal func lastExcuateOperation(by hasValue: Int) -> CFAbsoluteTime {
+        return QueueManager.workerHistories[hasValue] ?? 0
     }
     
     public static func run(_ scenario: QueueManager.Scenario) {
@@ -88,28 +88,25 @@ public class QueueManager {
     
     private func isValidDurationCondition(worker: Worker) -> Bool {
         let condition = worker.duration
-        let period =  CFAbsoluteTimeGetCurrent() - self.lastExcuateOperation(by: worker.name)
+        let period =  CFAbsoluteTimeGetCurrent() - self.lastExcuateOperation(by: worker.hashValue)
         let valid =  period > condition
-        //print("Condition - isValidDurationCondition:", period, "valid: ",valid)
         return valid
     }
     
     private func isValidOperationStateCondition(worker: Worker) -> Bool {
         let valid = worker.operation.isFinished == false && worker.operation.isExecuting == false && worker.operation.isReady == true
-        //print("Condition - isValidOperationStateCondition:", worker.operation.isFinished, worker.operation.isExecuting, worker.operation.isReady, "valid: ", valid)
         return valid
     }
     
     private func isValidIgnoreStateCondition(worker: Worker) -> Bool {
-        let valid = self.operations.contains(where: {$0.name == worker.name}) == true && worker.ignore == false
-        //print("Condition - isValidIgnoreStateCondition:", "valid: ",valid)
+        let valid = self.operations.contains(where: {$0.name?.hashValue == worker.name.hashValue}) == true && worker.ignore == false
         return valid
     }
     
     private func storeHistories(worker: Worker) {
         self.lock.lock()
         print("histories:", worker.name)
-        QueueManager.workerHistories[worker.name] = CFAbsoluteTimeGetCurrent()
+        QueueManager.workerHistories[worker.hashValue] = CFAbsoluteTimeGetCurrent()
         self.lock.unlock()
     }
     
