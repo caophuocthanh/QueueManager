@@ -2,7 +2,7 @@
 
 ## Feature:
 
-Beta 1:
+Phase 1:
 - [x] Can set a scenario to execute.
 - [x] Queue can run with many scenarios inside.
 - [x] State of the queue: working, resting.
@@ -12,7 +12,7 @@ Beta 1:
 - [x] Set duration to ignore tasks. Or set ignore == false
 - [x] A lib can easier to apply to an existing project.
 
-Beta 2:
+Phase 2:
 - [ ] A task can have required condition tasks these must be done before running this task.
 - [ ] If task adapted conditions. A task can run immediately. No need to wait its turn
 
@@ -28,17 +28,16 @@ Input:
 
 ```
    (begin):
-        (#1) -- task1 - task2 - task3 - [task4, task5, task6] - task7
+         [scenario #1] -- task1 - task2 - task3 - [task4, task5, task6] - task7
    (after 1s):
-        [
-            (#2) -- task1 - task2 - task3 - task8
-            (#3) -- task1 - task2 - task3 - task9
-            (#4) -- task1 - task2 - task3 - task10
-            (#5) --task1 - task2 - task3 - [task4, task5, task6] - task7
-        ]
+      [
+         [scenario #2] -- task1 - task2 - task3 - task8
+         [scenario #3] -- task1 - task2 - task3 - task9
+         [scenario #4] -- task1 - task2 - task3 - task10
+         [scenario #5] --task1 - task2 - task3 - [task4, task5, task6] - task7
+      ]
    (after 60s):
-        (#6) -- task1 - task2 - task3 - [task4, task5, task6] - task7
-        
+         [scenario #6] -- task1 - task2 - task3 - [task4, task5, task6] - task7
         
     // with task8, task9, task10 set irnore = false
 
@@ -52,8 +51,8 @@ queue[]:  task1 - task2 - task3 - [task4, task5, task6] - task7 - (finish #1) - 
 
 ```
 
-So, with the scenario #2 , #3, #5, #5. the scenario not execute  todo - note - event. The scenario run faster.
-After 60s, todo - note - event. more than duration. The tasks todo - note - event can run with another scenario.
+So, with the scenario #2 , #3, #5, #5. the scenario not execute . The scenario run faster.
+After 60s, #2 , #3, #5. more than duration. The tasks #2 , #3, #5 can run with another scenario.
 
 # How to use:
 
