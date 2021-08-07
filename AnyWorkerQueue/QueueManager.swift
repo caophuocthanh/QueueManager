@@ -43,6 +43,7 @@ public class QueueManager {
         return queue
     }()
     
+    
     internal let operationConcurrentQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name =  "operationConcurrentQueue"
@@ -52,7 +53,7 @@ public class QueueManager {
     }()
     
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: "AnyWorkerQDispatchQueue", qos: .userInteractive, attributes: [], autoreleaseFrequency: .workItem, target: .global())
-    private let lock = NSRecursiveLock()
+    private var lock: os_unfair_lock_s = os_unfair_lock_s()
     
     internal var _scenarios: [QueueManager.Scenario] = [] {
         didSet {
@@ -62,11 +63,9 @@ public class QueueManager {
     internal var _observations: [NSKeyValueObservation] = []
     
     public var operations: [CompleteOperation] {
-        //lock.lock()
         let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
-        //let names = operations.map {$0.name ?? ""}
-        //print("operations:", names)
-        //lock.unlock()
+        let names = operations.map {$0.name ?? ""}
+        print("operations:", names)
         return operations
     }
     
@@ -104,30 +103,28 @@ public class QueueManager {
     }
     
     private func storeHistories(worker: Worker) {
-        self.lock.lock()
-        print("histories:", worker.name)
+        os_unfair_lock_lock(&lock)
+        //print("histories:", worker.name)
         QueueManager.workerHistories[worker.hashValue] = CFAbsoluteTimeGetCurrent()
-        self.lock.unlock()
+        os_unfair_lock_unlock(&lock)
     }
     
     public func add(scenario: Scenario) {
         self.dispatchQueue.sync {
-            self.lock.lock()
-            
-            
+            os_unfair_lock_lock(&lock)
             guard scenario.workers.contains(where: { (worker) -> Bool in
                 return self.isValidDurationCondition(worker: worker) == true
             }) else {
                 print("\(Date()) add scenario -> invaValidDuration: \(scenario.name) completed")
                 scenario.completed()
-                self.lock.unlock()
+                os_unfair_lock_unlock(&lock)
                 return
             }
             
             if let exsit_scenario: Scenario = self._scenarios.first(where: { scenario == $0}) {
                 print("\(Date()) add scenario -> exsited: \(scenario.name) just add reference start and end.")
                 scenario.completed = exsit_scenario.completed
-                self.lock.unlock()
+                os_unfair_lock_unlock(&lock)
                 return
             }
 
@@ -204,7 +201,7 @@ public class QueueManager {
                     self.operationSerialQueue.addOperation(operation)
                 }
             }
-            self.lock.unlock()
+            os_unfair_lock_unlock(&lock)
         }
         
     }

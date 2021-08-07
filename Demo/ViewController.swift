@@ -112,7 +112,7 @@ class ViewController: UIViewController {
             }
             QueueManager.run(send)
         }
-        
+
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
             print("interval button2")
             self.button2.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
