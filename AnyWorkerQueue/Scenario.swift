@@ -56,19 +56,17 @@ public extension QueueManager {
                 makeCompleted()
             }
             
-            
             self.endWorker.completed {
                 self.workers.forEach { (worker) in
                     worker.completedCalbacks = []
                     worker.startCalbacks = []
                 }
                 self.tasks = []
-                print("\(Date()) Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
+                print("\(Date()) 🥰🥰🥰 Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
                 self.completed()
             }
             
-            
-            self.endWorker.operation.queuePriority = .veryHigh
+            self.endWorker.operation.queuePriority = .normal
             self.endWorker.duration = 0
             self.endWorker.ignore = false
             self.tasks.append(.sync(self.endWorker))

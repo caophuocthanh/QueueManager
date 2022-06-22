@@ -48,11 +48,11 @@ public class QueueManager {
         let queue = OperationQueue()
         queue.name =  "operationConcurrentQueue"
         queue.maxConcurrentOperationCount = 50
-        queue.qualityOfService = .userInteractive
+        queue.qualityOfService = .default
         return queue
     }()
     
-    private let dispatchQueue: DispatchQueue = DispatchQueue(label: "AnyWorkerQDispatchQueue", qos: .userInteractive, attributes: [], autoreleaseFrequency: .workItem, target: .global())
+    private let dispatchQueue: DispatchQueue = DispatchQueue(label: "AnyWorkerQDispatchQueue", qos: .default, attributes: [], autoreleaseFrequency: .workItem, target: .global())
     private var lock: os_unfair_lock_s = os_unfair_lock_s()
     
     internal var _scenarios: [QueueManager.Scenario] = [] {
@@ -76,6 +76,7 @@ public class QueueManager {
             } else if change.oldValue ?? 0 > 0 && change.newValue == 0 {
                 self.state = .resting
                 self._scenarios = []
+                print("operationSerialQueue finish.......")
             }
         }
         _observations.append(operationCountListener)
@@ -131,7 +132,13 @@ public class QueueManager {
      
             self._scenarios.append(scenario)
             
-            print("\(Date()) add scenario ->: \(scenario.name)")
+            print("\(Date()) Add scenario ->: \(scenario.name)", scenario.tasks.count)
+            
+            guard scenario.tasks.count > 0 else {
+                scenario.completed()
+                os_unfair_lock_unlock(&lock)
+                return
+            }
             
             for task in scenario.tasks {
                 switch task {
@@ -197,7 +204,7 @@ public class QueueManager {
                         }
                     }
                     
-                    operation.queuePriority = .veryHigh
+                    operation.queuePriority = .normal
                     self.operationSerialQueue.addOperation(operation)
                 }
             }

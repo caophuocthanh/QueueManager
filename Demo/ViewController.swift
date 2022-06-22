@@ -100,31 +100,31 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
-            print("interval button1")
-            self.button1.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
-            let send = Scenarios.scenario_1 {
-                DispatchQueue.main.async {
-                    self.button1.pulsate()
-                    self.button1.backgroundColor = .red
-                }
-                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_1 [interval] done")
-            }
-            QueueManager.run(send)
-        }
-
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
-            print("interval button2")
-            self.button2.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
-            let send = Scenarios.scenario_2 {
-                DispatchQueue.main.async {
-                    self.button2.pulsate()
-                    self.button2.backgroundColor = .blue
-                }
-                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_2 [interval] done")
-            }
-            QueueManager.run(send)
-        }
+//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
+//            print("interval button1")
+//            self.button1.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
+//            let send = Scenarios.scenario_1 {
+//                DispatchQueue.main.async {
+//                    self.button1.pulsate()
+//                    self.button1.backgroundColor = .red
+//                }
+//                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_1 [interval] done")
+//            }
+//            QueueManager.run(send)
+//        }
+//
+//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
+//            print("interval button2")
+//            self.button2.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
+//            let send = Scenarios.scenario_2 {
+//                DispatchQueue.main.async {
+//                    self.button2.pulsate()
+//                    self.button2.backgroundColor = .blue
+//                }
+//                print("\n\n\n😍😍😍😍😍 \(Date()) scenario_2 [interval] done")
+//            }
+//            QueueManager.run(send)
+//        }
                 
     }
     

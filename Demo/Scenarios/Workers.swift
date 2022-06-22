@@ -16,12 +16,16 @@ func request(calback: @escaping () ->  Void) {
 //    }
 //    task.resume()
     
-    let wait = DispatchSemaphore(value: 0)
-    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
         calback()
-        wait.signal()
     }
-    wait.wait()
+    
+//    let wait = DispatchSemaphore(value: 0)
+//    DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) {
+//        calback()
+//        wait.signal()
+//    }
+//    wait.wait()
     
     
 }
@@ -37,7 +41,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -52,7 +56,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -67,7 +71,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -82,7 +86,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -98,7 +102,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -113,7 +117,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -129,7 +133,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -145,7 +149,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -161,7 +165,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -176,7 +180,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
@@ -192,7 +196,7 @@ struct Workers {
                 makeCompleted()
             }
         }
-        worker.duration = 12
+        worker.duration = 4
         worker.ignore = true
         // worker.queuePriority = .veryHigh
         return worker
