@@ -16,7 +16,7 @@ func request(calback: @escaping () ->  Void) {
 //    }
 //    task.resume()
     
-    DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) {
         calback()
     }
     

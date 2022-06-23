@@ -43,7 +43,7 @@ public extension QueueManager {
         }
         
         public override func start() {
-            //print("operator: \(self.name ?? "") is start.")
+            print("operator: \(self.name ?? "") is start.")
             start_measure_time = CFAbsoluteTimeGetCurrent()
             if self.isCancelled {
                 state = .finished

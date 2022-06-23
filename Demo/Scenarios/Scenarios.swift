@@ -49,6 +49,7 @@ class Scenarios {
                     Workers.fetch_task3,
                     Workers.fetch_task8,
                 ]),
+                .wait(.seconds(5)),
                 .sync(Workers.push_task1),
             ],
             completed: {

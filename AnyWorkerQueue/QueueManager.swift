@@ -148,6 +148,13 @@ public class QueueManager {
             
             for task in scenario.tasks {
                 switch task {
+                case .wait(let dispatchTimeInterval):
+                    let operation = CompleteOperation(name: "sleep_\(UUID().uuidString)") { done in
+                        self.dispatchQueue.asyncAfter(deadline: .now() + dispatchTimeInterval) {
+                            done()
+                         }
+                    }
+                    operations.append(operation)
                 case .sync(let worker):
                     //print("\(Date()) Scenario: ----------- check worker:", worker.name)
                     
@@ -179,8 +186,8 @@ public class QueueManager {
                         worker.completedCalbacks.forEach { $0?()}
                     }
                 case .async(let name, let workers):
-                    let operation = CompleteOperation(name: name) { [weak self] done in
-                        guard let self = self else { return }
+                    
+                    let operation = CompleteOperation(name: name) { done in
                         let _start_mearsure = CFAbsoluteTimeGetCurrent()
                         print("\(Date()) Scenario: >> async \(workers.map { $0.name}) start.")
                         
@@ -209,6 +216,8 @@ public class QueueManager {
                             let operations = _workers.map { $0.operation}
                             self.operationConcurrentQueue.addOperations(operations, waitUntilFinished: true)
                             print("\(Date()) Scenario: >> async \(_workers.map { $0.name}) done in ",  CFAbsoluteTimeGetCurrent() - _start_mearsure, "seconds")
+                            done()
+                        } else {
                             done()
                         }
                     }

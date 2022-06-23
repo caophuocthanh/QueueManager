@@ -7,9 +7,14 @@
 
 import UIKit
 
+internal extension DispatchQueue {
+    static let waitQueue: DispatchQueue = DispatchQueue(label: "waitQueue", qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem, target: .global())
+}
+
 public extension QueueManager {
     
     enum Task {
+        case wait(DispatchTimeInterval)
         case sync(Worker)
         case async(String, [Worker])
     }
@@ -37,6 +42,12 @@ public extension QueueManager {
             var workers: [Worker] = []
             for task in self.tasks {
                 switch task {
+                case .wait(let dispatchTimeInterval):
+                    workers.append(Worker(name: "sleep_\(UUID().uuidString)", handler: { done in
+                        DispatchQueue.waitQueue.asyncAfter(deadline: .now() + dispatchTimeInterval) {
+                            done()
+                        }
+                    }))
                 case .sync(let w):
                     workers.append(w)
                 case .async(_, let ws):
