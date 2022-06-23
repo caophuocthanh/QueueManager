@@ -42,12 +42,7 @@ public extension QueueManager {
             var workers: [Worker] = []
             for task in self.tasks {
                 switch task {
-                case .wait(let dispatchTimeInterval):
-                    workers.append(Worker(name: "sleep_\(UUID().uuidString)", handler: { done in
-                        DispatchQueue.waitQueue.asyncAfter(deadline: .now() + dispatchTimeInterval) {
-                            done()
-                        }
-                    }))
+                case .wait(_): break
                 case .sync(let w):
                     workers.append(w)
                 case .async(_, let ws):
@@ -67,7 +62,7 @@ public extension QueueManager {
                 makeCompleted()
             }
             
-            self.endWorker.completed {
+            self.endWorker.completed { 
                 self.workers.forEach { (worker) in
                     worker.completedCalbacks = []
                     worker.startCalbacks = []
@@ -84,7 +79,7 @@ public extension QueueManager {
         }
         
         deinit {
-            print("\(Date()) Scenario: [\(self.name)] deinit\n\n\n\n\n")
+            print("Scenario: [\(self.name)] deinit")
         }
         
     }
