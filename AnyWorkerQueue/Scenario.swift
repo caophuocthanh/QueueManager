@@ -62,7 +62,7 @@ public extension QueueManager {
                 makeCompleted()
             }
             
-            self.endWorker.completed {
+            self.endWorker.completed { 
                 self.workers.forEach { (worker) in
                     worker.completedCalbacks = []
                     worker.startCalbacks = []

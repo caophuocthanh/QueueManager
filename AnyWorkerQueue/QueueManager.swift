@@ -68,13 +68,12 @@ public class QueueManager {
     
     public var operations: [Operation] {
        let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
-//        let names = operations.map {$0.name ?? ""}
-//        print("operations:", names)
         return operations
     }
     
     public init() {
-        let operationCountListener = self.operationSerialQueue.observe(\.operationCount, options: [.old,.new]) { object, change in
+        let operationCountListener = self.operationSerialQueue.observe(\.operationCount, options: [.old,.new]) { [weak self] object, change in
+            guard let self = self else { return }
             if (change.oldValue == 0) && change.newValue == 1 {
                 self.state = .working
             } else if change.oldValue ?? 0 > 0 && change.newValue == 0 {
@@ -149,7 +148,8 @@ public class QueueManager {
             for task in scenario.tasks {
                 switch task {
                 case .wait(let dispatchTimeInterval):
-                    let operation = CompleteOperation(name: "sleep_\(UUID().uuidString)") { done in
+                    let operation = CompleteOperation(name: "sleep_\(UUID().uuidString)") { [weak self] done in
+                        guard let self = self else { return }
                         self.dispatchQueue.asyncAfter(deadline: .now() + dispatchTimeInterval) {
                             done()
                          }
@@ -187,7 +187,9 @@ public class QueueManager {
                     }
                 case .async(let name, let workers):
                     
-                    let operation = CompleteOperation(name: name) { done in
+                    let operation = CompleteOperation(name: name) {  [weak self] done in
+                        guard let self = self else { return }
+                        
                         let _start_mearsure = CFAbsoluteTimeGetCurrent()
                         print("\(Date()) Scenario: >> async \(workers.map { $0.name}) start.")
                         
