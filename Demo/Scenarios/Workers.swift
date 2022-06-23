@@ -32,8 +32,8 @@ func request(calback: @escaping () ->  Void) {
 
 struct Workers {
     
-    public static var fetch_task1: Worker = {
-        let worker = Worker(name: "fetch_task1") { (makeCompleted) in
+    public static var fetch_task1: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task1") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -47,8 +47,8 @@ struct Workers {
         return worker
     }()
     
-    public static var fetch_task2: Worker  = {
-        let worker = Worker(name: "fetch_task2") { (makeCompleted) in
+    public static var fetch_task2: QueueManager.Worker  = {
+        let worker = QueueManager.Worker(name: "fetch_task2") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -62,8 +62,8 @@ struct Workers {
         return worker
     }()
     
-    public static var fetch_task3: Worker = {
-        let worker = Worker(name: "fetch_task3") { (makeCompleted) in
+    public static var fetch_task3: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task3") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -77,8 +77,8 @@ struct Workers {
         return worker
     }()
     
-    public static var fetch_task4: Worker = {
-        let worker = Worker(name: "fetch_task4") { (makeCompleted) in
+    public static var fetch_task4: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task4") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -93,8 +93,8 @@ struct Workers {
     }()
     
     
-    public static var fetch_task5: Worker = {
-        let worker = Worker(name: "fetch_task5") { (makeCompleted) in
+    public static var fetch_task5: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task5") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -108,8 +108,8 @@ struct Workers {
         return worker
     }()
     
-    public static var fetch_task6: Worker = {
-        let worker = Worker(name: "fetch_task6") { (makeCompleted) in
+    public static var fetch_task6: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task6") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -124,8 +124,8 @@ struct Workers {
     }()
     
     
-    public static var fetch_task7: Worker  = {
-        let worker = Worker(name: "fetch_task7") { (makeCompleted) in
+    public static var fetch_task7: QueueManager.Worker  = {
+        let worker = QueueManager.Worker(name: "fetch_task7") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -140,8 +140,8 @@ struct Workers {
     }()
     
     
-    public static var fetch_task8: Worker  = {
-        let worker = Worker(name: "fetch_task8") { (makeCompleted) in
+    public static var fetch_task8: QueueManager.Worker  = {
+        let worker = QueueManager.Worker(name: "fetch_task8") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -156,8 +156,8 @@ struct Workers {
     }()
     
     
-    public static var fetch_task9: Worker  = {
-        let worker = Worker(name: "fetch_task9") { (makeCompleted) in
+    public static var fetch_task9: QueueManager.Worker  = {
+        let worker = QueueManager.Worker(name: "fetch_task9") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -171,8 +171,8 @@ struct Workers {
         return worker
     }()
     
-    public static var fetch_task10: Worker  = {
-        let worker = Worker(name: "fetch_task10") { (makeCompleted) in
+    public static var fetch_task10: QueueManager.Worker  = {
+        let worker = QueueManager.Worker(name: "fetch_task10") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -187,8 +187,8 @@ struct Workers {
     }()
     
     
-    public static var fetch_task11: Worker = {
-        let worker = Worker(name: "fetch_task11") { (makeCompleted) in
+    public static var fetch_task11: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "fetch_task11") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
@@ -202,8 +202,8 @@ struct Workers {
         return worker
     }()
     
-    public static var push_task1: Worker = {
-        let worker = Worker(name: "push_task1") { (makeCompleted) in
+    public static var push_task1: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "push_task1") { (makeCompleted) in
             
             // closure excute any code
             let start = CFAbsoluteTimeGetCurrent()
@@ -220,8 +220,8 @@ struct Workers {
         return worker
     }()
     
-    public static var push_task2: Worker = {
-        let worker = Worker(name: "push_task2") { (makeCompleted) in
+    public static var push_task2: QueueManager.Worker = {
+        let worker = QueueManager.Worker(name: "push_task2") { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start

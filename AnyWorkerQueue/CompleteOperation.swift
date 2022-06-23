@@ -10,7 +10,7 @@ import UIKit
 
 public extension QueueManager {
     
-    class CompleteOperation: Operation {
+    internal class CompleteOperation: Operation {
                 
         private var makeCompleted: ((_ callback: @escaping (() -> Void)) -> Void)
         internal var startCalback: [((() -> Void))?] = []

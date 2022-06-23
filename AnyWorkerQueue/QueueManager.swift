@@ -66,7 +66,7 @@ public class QueueManager {
     
     internal var _observations: [NSKeyValueObservation] = []
     
-    public var operations: [CompleteOperation] {
+    public var operations: [Operation] {
        let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
 //        let names = operations.map {$0.name ?? ""}
 //        print("operations:", names)

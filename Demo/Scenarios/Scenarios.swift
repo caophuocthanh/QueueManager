@@ -10,11 +10,6 @@ import AnyWorkerQueue
 
 class Scenarios {
     
-    fileprivate static  let operationSerialQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "operationSerialQueueForScenarios", qos: .default, attributes: [], autoreleaseFrequency: .never, target: nil)
-        return queue
-    }()
-    
     static func scenario_1(completed: @escaping () -> Void) -> QueueManager.Scenario {
         return QueueManager.Scenario(
             name: "scenario_1",
@@ -33,9 +28,7 @@ class Scenarios {
                 .sync(Workers.fetch_task10)
             ],
             completed: {
-                self.operationSerialQueue.async {
-                    completed()
-                }
+                completed()
             })
     }
     
@@ -53,9 +46,7 @@ class Scenarios {
                 .sync(Workers.push_task1),
             ],
             completed: {
-                self.operationSerialQueue.async {
-                    completed()
-                }
+                completed()
             })
     }
     
@@ -72,9 +63,7 @@ class Scenarios {
                 .sync(Workers.push_task2)
             ],
             completed: {
-                self.operationSerialQueue.async {
-                    completed()
-                }
+                completed()
             })
     }
     
