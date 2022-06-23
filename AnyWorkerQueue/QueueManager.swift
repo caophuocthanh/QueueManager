@@ -39,7 +39,7 @@ public class QueueManager {
         let queue = OperationQueue()
         queue.name =  "operationSerialQueue"
         queue.maxConcurrentOperationCount = 1
-        queue.qualityOfService = .userInteractive
+        queue.qualityOfService = .default
         return queue
     }()
     
@@ -47,25 +47,29 @@ public class QueueManager {
     internal let operationConcurrentQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name =  "operationConcurrentQueue"
-        queue.maxConcurrentOperationCount = 50
+        queue.maxConcurrentOperationCount = NSIntegerMax
         queue.qualityOfService = .default
         return queue
     }()
     
-    private let dispatchQueue: DispatchQueue = DispatchQueue(label: "AnyWorkerQDispatchQueue", qos: .default, attributes: [], autoreleaseFrequency: .workItem, target: .global())
+    private let dispatchQueue: DispatchQueue = DispatchQueue(
+        label: "AnyWorkerQDispatchQueue",
+        qos: .default,
+        attributes: [],
+        autoreleaseFrequency: .workItem,
+        target: nil
+    )
+    
     private var lock: os_unfair_lock_s = os_unfair_lock_s()
     
-    internal var _scenarios: [QueueManager.Scenario] = [] {
-        didSet {
-            print("_scenarios:", _scenarios.map { $0.name })
-        }
-    }
+    internal var _scenarios: [QueueManager.Scenario] = []
+    
     internal var _observations: [NSKeyValueObservation] = []
     
     public var operations: [CompleteOperation] {
-        let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
-        let names = operations.map {$0.name ?? ""}
-        print("operations:", names)
+       let operations: [CompleteOperation] = (self.operationSerialQueue.operations + self.operationConcurrentQueue.operations).map{ $0 as? CompleteOperation}.compactMap{ $0 }
+//        let names = operations.map {$0.name ?? ""}
+//        print("operations:", names)
         return operations
     }
     
@@ -128,7 +132,6 @@ public class QueueManager {
                 os_unfair_lock_unlock(&lock)
                 return
             }
-
      
             self._scenarios.append(scenario)
             
@@ -139,6 +142,9 @@ public class QueueManager {
                 os_unfair_lock_unlock(&lock)
                 return
             }
+            
+            
+            var operations: [Operation] = []
             
             for task in scenario.tasks {
                 switch task {
@@ -151,7 +157,8 @@ public class QueueManager {
                             guard let self = self else { return }
                             self.storeHistories(worker: worker)
                         }
-                        self.operationSerialQueue.addOperation(worker.operation)
+                        print("\(Date()) Scenario: [a] add worker \(worker.name)")
+                        operations.append(worker.operation)
                     }
                     
                     else if self.operations.contains(worker.operation) == false &&
@@ -163,15 +170,16 @@ public class QueueManager {
                             guard let self = self else { return }
                             self.storeHistories(worker: worker)
                         }
-                        self.operationSerialQueue.addOperation(worker.operation)
+                        print("\(Date()) Scenario: [b] add worker \(worker.name)")
+                        operations.append(worker.operation)
                     }
                     
                     else {
                         print("\(Date()) Scenario: ignore => \(worker.name)")
                         worker.completedCalbacks.forEach { $0?()}
                     }
-                case .async(let workers):
-                    let operation = BlockOperation {  [weak self] in
+                case .async(let name, let workers):
+                    let operation = CompleteOperation(name: name) { [weak self] done in
                         guard let self = self else { return }
                         let _start_mearsure = CFAbsoluteTimeGetCurrent()
                         print("\(Date()) Scenario: >> async \(workers.map { $0.name}) start.")
@@ -201,13 +209,24 @@ public class QueueManager {
                             let operations = _workers.map { $0.operation}
                             self.operationConcurrentQueue.addOperations(operations, waitUntilFinished: true)
                             print("\(Date()) Scenario: >> async \(_workers.map { $0.name}) done in ",  CFAbsoluteTimeGetCurrent() - _start_mearsure, "seconds")
+                            done()
                         }
                     }
                     
                     operation.queuePriority = .normal
-                    self.operationSerialQueue.addOperation(operation)
+                    operation.name = name
+                    operations.append(operation)
                 }
             }
+            
+            operations.forEach { operation in
+                operation.queuePriority = .normal
+                operation.qualityOfService = .default
+            }
+            
+            print(scenario.name,"run operations:", operations.map {$0.name ?? ""})
+            
+            self.operationSerialQueue.addOperations(operations, waitUntilFinished: false)
             os_unfair_lock_unlock(&lock)
         }
         

@@ -48,13 +48,13 @@ public class Worker: Hashable {
                     makeCompleted()
                 }
             }
-            _operation.queuePriority = self.queuePriority
+            _operation.queuePriority = .normal
             _operation.completedCalback += completedCalbacks
             return _operation
         }
         
         if let _operation = self.operations.first(where: { $0.name == name}) {
-            _operation.queuePriority = self.queuePriority
+            _operation.queuePriority = .normal
             return _operation
         }
         
@@ -65,7 +65,7 @@ public class Worker: Hashable {
                 makeCompleted()
             }
         }
-        _operation.queuePriority = self.queuePriority
+        _operation.queuePriority = .normal
         _operation.startCalback += startCalbacks
         _operation.completedCalback += completedCalbacks
         return _operation
@@ -75,8 +75,6 @@ public class Worker: Hashable {
     public var ignore: Bool = false
 //    public var timeout: Double = 120
 //    public var retry: Int = 0
-    
-    private var queuePriority: Operation.QueuePriority = .veryHigh
     
     public init(name: String, handler: @escaping ((_ callback: @escaping (() -> Void)) -> Void)) {
         self.name = name

@@ -16,7 +16,7 @@ func request(calback: @escaping () ->  Void) {
 //    }
 //    task.resume()
     
-    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
         calback()
     }
     
@@ -43,7 +43,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -58,7 +58,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -73,7 +73,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -88,7 +88,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -104,7 +104,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -119,7 +119,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -135,7 +135,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -151,7 +151,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -167,7 +167,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -182,7 +182,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     
@@ -198,7 +198,7 @@ struct Workers {
         }
         worker.duration = 4
         worker.ignore = true
-        // worker.queuePriority = .veryHigh
+        
         return worker
     }()
     

@@ -57,6 +57,7 @@ class ViewController: UIViewController {
     }
     
     @objc func button1DidTouch() {
+        print("🥰🥰🥰 tap scenario_1")
         button1.pulsate()
         button1.backgroundColor = .gray
         let send = Scenarios.scenario_1 {
@@ -70,6 +71,7 @@ class ViewController: UIViewController {
     }
     
     @objc func button2DidTouch() {
+        print("🥰🥰🥰 tap scenario_2")
         button2.pulsate()
         button2.backgroundColor = .gray
         let send = Scenarios.scenario_2 {
@@ -83,6 +85,7 @@ class ViewController: UIViewController {
     }
     
     @objc func button3DidTouch() {
+        print("🥰🥰🥰 tap scenario_3")
         button3.pulsate()
         button3.backgroundColor = .gray
         let send = Scenarios.scenario_3 {
@@ -100,7 +103,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
+//        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (_) in
 //            print("interval button1")
 //            self.button1.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
 //            let send = Scenarios.scenario_1 {
@@ -113,7 +116,7 @@ class ViewController: UIViewController {
 //            QueueManager.run(send)
 //        }
 //
-//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
+//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
 //            print("interval button2")
 //            self.button2.backgroundColor = UIColor.orange.withAlphaComponent(0.5)
 //            let send = Scenarios.scenario_2 {

@@ -11,7 +11,7 @@ public extension QueueManager {
     
     enum Task {
         case sync(Worker)
-        case async([Worker])
+        case async(String, [Worker])
     }
     
     class Scenario: Hashable {
@@ -39,7 +39,7 @@ public extension QueueManager {
                 switch task {
                 case .sync(let w):
                     workers.append(w)
-                case .async(let ws):
+                case .async(_, let ws):
                     workers += ws
                 }
             }
@@ -52,7 +52,7 @@ public extension QueueManager {
             self.tasks = tasks
             self.completed = completed
             
-            self.endWorker = Worker(name: "\(name)_finish") { (makeCompleted) in
+            self.endWorker = Worker(name: "\(name)_\(UUID().uuidString)_finish") { (makeCompleted) in
                 makeCompleted()
             }
             
@@ -62,7 +62,7 @@ public extension QueueManager {
                     worker.startCalbacks = []
                 }
                 self.tasks = []
-                print("\(Date()) 🥰🥰🥰 Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
+                //print("\(Date()) 🥰🥰🥰 Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
                 self.completed()
             }
             
