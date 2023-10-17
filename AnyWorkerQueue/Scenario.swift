@@ -8,7 +8,16 @@
 import UIKit
 
 internal extension DispatchQueue {
-    static let waitQueue: DispatchQueue = DispatchQueue(label: "waitQueue", qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem, target: .global())
+    static let waitQueue: DispatchQueue = {
+        let queue = DispatchQueue(
+            label: "WaitingQueue",
+            qos: .default,
+            attributes: .concurrent,
+            autoreleaseFrequency: .workItem,
+            target: nil
+        )
+        return queue
+    }()
 }
 
 public extension QueueManager {
@@ -59,22 +68,20 @@ public extension QueueManager {
             self.completed = completed
             
             self.endWorker = Worker(name: "\(name)_\(UUID().uuidString)_finish") { (makeCompleted) in
-                makeCompleted()
+                makeCompleted(.success(nil))
             }
             
-            self.endWorker.completed { 
+            self.endWorker.completed { _ in
                 self.workers.forEach { (worker) in
                     worker.completedCalbacks = []
                     worker.startCalbacks = []
                 }
                 self.tasks = []
-                //print("\(Date()) 🥰🥰🥰 Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
+                print("\(Date()) 🥰🥰🥰 Scenario: [\(self.name)] finish in", CFAbsoluteTimeGetCurrent() - self.start_mearsure, "seconds")
                 self.completed()
             }
             
-            self.endWorker.operation.queuePriority = .normal
-            self.endWorker.duration = 0
-            self.endWorker.ignore = false
+            self.endWorker.queuePriority = .normal
             self.tasks.append(.sync(self.endWorker))
         }
         

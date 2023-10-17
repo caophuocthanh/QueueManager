@@ -16,227 +16,174 @@ func request(calback: @escaping () ->  Void) {
 //    }
 //    task.resume()
     
-    DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + Double.random(in: 1..<10)) {
         calback()
     }
-    
-//    let wait = DispatchSemaphore(value: 0)
-//    DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) {
-//        calback()
-//        wait.signal()
-//    }
-//    wait.wait()
-    
-    
+
 }
 
 struct Workers {
     
     public static var fetch_task1: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task1") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task1", rate_limit: 4, ignore: true, retry: 3) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task1 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.failure(NSError(domain: "push_task1 error", code: 100)))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     public static var fetch_task2: QueueManager.Worker  = {
-        let worker = QueueManager.Worker(name: "fetch_task2") { (makeCompleted) in
+        return QueueManager.Worker(name: "fetch_task2", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task2 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task2"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
-        return worker
     }()
     
     public static var fetch_task3: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task3") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task3", rate_limit: 4, ignore: true, retry: 3) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task3 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.failure(NSError(domain: "push_task3 error", code: 100)))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     public static var fetch_task4: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task4") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task4", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task4 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task4"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
         
         return worker
     }()
     
     
     public static var fetch_task5: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task5") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task5", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task5 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task5"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     public static var fetch_task6: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task6") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task6", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task6 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task6"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     
     public static var fetch_task7: QueueManager.Worker  = {
-        let worker = QueueManager.Worker(name: "fetch_task7") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task7", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task7 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task7"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     
     public static var fetch_task8: QueueManager.Worker  = {
-        let worker = QueueManager.Worker(name: "fetch_task8") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task8", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task8 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task8"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     
     public static var fetch_task9: QueueManager.Worker  = {
-        let worker = QueueManager.Worker(name: "fetch_task9") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task9", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task9 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task9"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     public static var fetch_task10: QueueManager.Worker  = {
-        let worker = QueueManager.Worker(name: "fetch_task10") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task10", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task10 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task10"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     
     public static var fetch_task11: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "fetch_task11") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "fetch_task11", rate_limit: 4, ignore: true) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => fetch_task11 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello fetch_task11"))
             }
         }
-        worker.duration = 4
-        worker.ignore = true
-        
         return worker
     }()
     
     public static var push_task1: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "push_task1") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "push_task1", rate_limit: 0, ignore: false) { (makeCompleted) in
             
             // closure excute any code
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => push_task1 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.failure(NSError(domain: "push_task1 error", code: 100)))
             }
         }
-        // duration for next excute
-        worker.duration = 0
-        // accept ignore after duration time
-        worker.ignore = false
         return worker
     }()
     
     public static var push_task2: QueueManager.Worker = {
-        let worker = QueueManager.Worker(name: "push_task2") { (makeCompleted) in
+        let worker = QueueManager.Worker(name: "push_task2", rate_limit: 0, ignore: false, retry: 1) { (makeCompleted) in
             let start = CFAbsoluteTimeGetCurrent()
             request {
                 let measure = CFAbsoluteTimeGetCurrent() - start
                 print("✪ makeCompleted  => push_task2 is finish in \(measure) seconds.")
-                makeCompleted()
+                makeCompleted(.success("hello push_task2"))
             }
         }
-        // duration for next excute
-        worker.duration = 0
-        // accept ignore after duration time
-        worker.ignore = false
-//        // timeout
-//        worker.timeout = 30 // seconds
-//        // retry
-//        worker.retry = 1
         return worker
     }()
     

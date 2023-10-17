@@ -12,9 +12,9 @@ public extension QueueManager {
     
     internal class CompleteOperation: Operation {
                 
-        private var makeCompleted: ((_ callback: @escaping (() -> Void)) -> Void)
-        internal var startCalback: [((() -> Void))?] = []
-        internal var completedCalback: [((() -> Void))?] = []
+        private var makeCompleted:      ((_ callback: @escaping ((Result<Any?, Error>) -> Void)) -> Void)
+        internal var startCalback:      [(((Result<Any?, Error>) -> Void))?] = []
+        internal var completedCalback:  [(((Result<Any?, Error>) -> Void))?] = []
         
         private var start_measure_time: CFAbsoluteTime = CFAbsoluteTimeGetCurrent()
         
@@ -58,18 +58,18 @@ public extension QueueManager {
                 self.state = .finished
                 return
             }
-            self.startCalback.compactMap{ $0 }.forEach{ $0() }
+            self.startCalback.compactMap{ $0 }.forEach{ $0(.success(nil)) }
             state = .executing
             
-            self.makeCompleted {
+            self.makeCompleted { complited in
                 let measure = CFAbsoluteTimeGetCurrent() - self.start_measure_time
                 print(Date(),"operator: \(self.name ?? "") is finish in \(measure) seconds.")
                 self.state = .finished
-                self.completedCalback.compactMap{ $0 }.forEach{ $0() }
+                self.completedCalback.compactMap{ $0 }.forEach{ $0(complited) }
             }
         }
         
-        public init(name: String, makeCompleted: (@escaping (_ finish: @escaping (() -> Void)) -> Void)) {
+        public init(name: String, makeCompleted: (@escaping (_ finish: @escaping ((Result<Any?, any Error>) -> Void)) -> Void)) {
             self.makeCompleted = makeCompleted
             super.init()
             self.name = name

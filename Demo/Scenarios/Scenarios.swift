@@ -36,14 +36,20 @@ class Scenarios {
         return QueueManager.Scenario(
             name: "scenario_2",
             tasks: [
+                .sync(Workers.fetch_task1),
+                .sync(Workers.fetch_task2),
+                .sync(Workers.fetch_task3),
+                .sync(Workers.fetch_task4),
+                .wait(.seconds(10)),
                 .async("scenario_2_group_1", [
-                    Workers.fetch_task10,
-                    Workers.fetch_task9,
-                    Workers.fetch_task3,
+                    Workers.fetch_task5,
+                    Workers.fetch_task6,
+                    Workers.fetch_task7,
                     Workers.fetch_task8,
                 ]),
                 .wait(.seconds(2)),
-                .sync(Workers.push_task1),
+                .sync(Workers.fetch_task9),
+                .sync(Workers.fetch_task10),
             ],
             completed: {
                 completed()

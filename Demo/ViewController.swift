@@ -60,6 +60,7 @@ class ViewController: UIViewController {
         print("🥰🥰🥰 tap scenario_1")
         button1.pulsate()
         button1.backgroundColor = .gray
+        
         let send = Scenarios.scenario_1 { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -75,6 +76,7 @@ class ViewController: UIViewController {
         print("🥰🥰🥰 tap scenario_2")
         button2.pulsate()
         button2.backgroundColor = .gray
+        
         let send = Scenarios.scenario_2 { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -90,6 +92,7 @@ class ViewController: UIViewController {
         print("🥰🥰🥰 tap scenario_3")
         button3.pulsate()
         button3.backgroundColor = .gray
+        
         let send = Scenarios.scenario_3 { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
